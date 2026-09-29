@@ -146,6 +146,13 @@ h1 {
 h2 .typing-h::after { content: ""; display: inline-block; width: .55em; height: 1em; background: var(--accent); vertical-align: -0.15em; margin-left: 2px; }
 nav::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 2px; width: calc(var(--scroll, 0) * 100%); background: var(--accent); }
 @media print { .rv { opacity: 1 !important; transform: none !important; } }
+/* reduced motion: keep the fades and typing, drop the sliding */
+@media (prefers-reduced-motion: reduce) {
+  .rv { transform: none; transition: opacity .5s ease-out; }
+  .term-body > .shown { animation: fade .35s ease-out both; }
+  html { scroll-behavior: auto; }
+}
+@keyframes fade { from { opacity: .01; } to { opacity: 1; } }
 
 /* sections */
 section { padding-block: 40px; }

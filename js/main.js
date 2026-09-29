@@ -14,8 +14,6 @@ document.getElementById('copyBtn').addEventListener('click', function () {
 (function () {
   var body = document.querySelector('.hero .term-body');
   if (!body) return;
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) return;
   var kids = Array.prototype.slice.call(body.children);
   kids.forEach(function (k) { k.classList.add('pending'); });
   var done = false;
@@ -166,7 +164,6 @@ document.getElementById('copyBtn').addEventListener('click', function () {
 })();
 /* ---------- scroll animations: sections slide in and their command types out ---------- */
 (function () {
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var nav = document.querySelector('nav');
   if (nav) {
     var tick = false;
@@ -174,7 +171,7 @@ document.getElementById('copyBtn').addEventListener('click', function () {
     window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
     upd();
   }
-  if (reduce || !('IntersectionObserver' in window)) return;
+  if (!('IntersectionObserver' in window)) return;
   var ITEMS = 'h2, .shell-hint, .shell, .entry, .feature, .award, .labs-intro, .lab, .skillrow, .degree, .out, .contact-row';
   var sections = Array.prototype.slice.call(document.querySelectorAll('main > section'));
   function typeH2(h2) {
