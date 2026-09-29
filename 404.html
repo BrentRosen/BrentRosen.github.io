@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>404 | Brent Rosen</title>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div class="term">
+      <div class="term-bar"><i class="dot r"></i><i class="dot y"></i><i class="dot g"></i><span>brent@rosen: ~ (bash)</span></div>
+      <div class="term-body">
+        <p><span class="ps">brent@rosen:<b>~</b><i>$</i></span> <span class="cmd">cd <span id="path">this-page</span></span></p>
+        <h1>404<span class="cursor" aria-hidden="true"></span></h1>
+        <p class="role">bash: cd: No such file or directory</p>
+        <p class="lede">The page you're looking for doesn't exist or was moved.</p>
+        <div class="cta">
+          <a class="btn primary" href="/">cd ~</a>
+          <a class="btn" href="/resume/">cat resume</a>
+        </div>
+      </div>
+    </div>
+  </header>
+</main>
+<script>
+  try { document.getElementById('path').textContent = decodeURIComponent(location.pathname) || '/'; } catch (e) {}
+</script>
+</body>
+</html>
