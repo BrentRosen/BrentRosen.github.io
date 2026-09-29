@@ -16,7 +16,7 @@ brent@rosen:~$ whoami
 
 ---
 
-This repo is the source for my personal portfolio at **[brentrosen.github.io](https://brentrosen.github.io)**, a single-page site styled like a terminal session, hosted on GitHub Pages.
+This repo is the source for my personal portfolio at **[brentrosen.github.io](https://brentrosen.github.io)**, a single-page site styled like a terminal session, hosted on GitHub Pages. It boots up with a typing intro and includes a working interactive shell: type `help` to explore.
 
 ## `$ neofetch --short`
 
@@ -35,7 +35,7 @@ This repo is the source for my personal portfolio at **[brentrosen.github.io](ht
 .
 ├── index.html            # the portfolio page
 ├── css/style.css         # terminal theme (dark-first, with a light variant)
-├── js/main.js            # copy-email button
+├── js/main.js            # boot-up typing intro, interactive shell, copy-email button
 ├── resume/index.html     # web version of my resume (print-ready)
 ├── assets/
 │   ├── Brent_Rosen_Resume.pdf

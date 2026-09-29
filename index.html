@@ -23,6 +23,7 @@
   <div class="wrap">
     <a class="mark" href="#top">brent@rosen<i>:</i><b>~</b><i>$</i></a>
     <ul>
+      <li><a href="#shell">./shell</a></li>
       <li><a href="#experience">./experience</a></li>
       <li><a href="#projects">./projects</a></li>
       <li><a href="#skills">./skills</a></li>
@@ -38,11 +39,11 @@
     <div class="term">
       <div class="term-bar"><i class="dot r"></i><i class="dot y"></i><i class="dot g"></i><span>brent@rosen: ~ (bash)</span></div>
       <div class="term-body">
-        <p><span class="ps">brent@rosen:<b>~</b><i>$</i></span> <span class="cmd">whoami</span></p>
+        <p><span class="ps">brent@rosen:<b>~</b><i>$</i></span> <span class="cmd" data-type="whoami">whoami</span></p>
         <h1>Brent Rosen<span class="cursor" aria-hidden="true"></span></h1>
         <p class="role">IT and cybersecurity student building toward a career in <em>AI-driven security</em>.</p>
         <p class="lede">I have a B.S. in Information Technology from Nova Southeastern University, with minors in Cybersecurity and AI Application, and I'm now pursuing an M.S. in Artificial Intelligence Cybersecurity. I work as an IT intern, own security for a student platform, and am a member of NSU's eHackers cybersecurity club, which I served as vice president. I like hard technical problems and explaining the fixes clearly to the people who depend on them.</p>
-        <p><span class="ps">brent@rosen:<b>~</b><i>$</i></span> <span class="cmd">neofetch --short</span></p>
+        <p><span class="ps">brent@rosen:<b>~</b><i>$</i></span> <span class="cmd" data-type="neofetch --short">neofetch --short</span></p>
         <dl class="fetch">
           <dt>location</dt><dd>Fort Lauderdale, FL</dd>
           <dt>current</dt><dd>IT Intern @ Downtown Computer Services</dd>
@@ -58,6 +59,30 @@
       </div>
     </div>
   </header>
+
+  <section id="shell" aria-label="Interactive terminal">
+    <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> ./interactive.sh</h2>
+    <p class="shell-hint">Prefer the command line? Ask me anything below. Type <b class="mono">help</b> to see the commands, or tap one to start.</p>
+    <div class="term shell" id="shellWin">
+      <div class="term-bar"><i class="dot r"></i><i class="dot y"></i><i class="dot g"></i><span>brent@rosen: ~ (interactive)</span></div>
+      <div class="shell-body" id="shellOut" role="log" aria-live="polite">
+        <p class="dim">Welcome to brent@rosen. Last login: from your browser.</p>
+        <p class="dim">Type <span class="hl">help</span> for a list of commands.</p>
+      </div>
+      <form class="shell-line" id="shellForm" autocomplete="off">
+        <label class="ps" for="shellIn">brent@rosen:<b>~</b><i>$</i></label>
+        <input id="shellIn" name="cmd" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send" placeholder="type a command, e.g. help">
+      </form>
+      <div class="shell-quick" aria-label="Quick commands">
+        <button type="button" data-cmd="help">help</button>
+        <button type="button" data-cmd="whoami">whoami</button>
+        <button type="button" data-cmd="experience">experience</button>
+        <button type="button" data-cmd="labs">labs</button>
+        <button type="button" data-cmd="skills">skills</button>
+        <button type="button" data-cmd="contact">contact</button>
+      </div>
+    </div>
+  </section>
 
   <section id="experience">
     <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> cat experience.log</h2>
