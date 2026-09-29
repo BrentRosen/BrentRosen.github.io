@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brent Rosen</title>
+<meta name="description" content="Brent Rosen, IT and cybersecurity student at Nova Southeastern University.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: the page is a terminal session. Each section is a command at a prompt, its content is the output. Dark-first, with a light "paper terminal" variant. */
+:root {
+  --bg: #070d12;
+  --panel: #0c151c;
+  --panel-2: #101c25;
+  --ink: #d7e4ea;
+  --muted: #7f95a3;
+  --line: #1c2c37;
+  --accent: #3fd6c4;     /* prompt / cursor cyan-teal */
+  --signal: #f2a33a;     /* flags, warnings */
+  --ok: #7bd88f;         /* running / pass */
+  --grid: rgba(63, 214, 196, .05);
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #eef2f3; --panel: #ffffff; --panel-2: #f5f8f9; --ink: #0d1a22; --muted: #52646f;
+    --line: #d3dde1; --accent: #067a6f; --signal: #b35900; --ok: #1f7a3a; --grid: rgba(6, 122, 111, .06);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #eef2f3; --panel: #ffffff; --panel-2: #f5f8f9; --ink: #0d1a22; --muted: #52646f;
+  --line: #d3dde1; --accent: #067a6f; --signal: #b35900; --ok: #1f7a3a; --grid: rgba(6, 122, 111, .06);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--bg); color: var(--ink);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  font-family: var(--body); font-size: 1rem; line-height: 1.6;
+  padding-inline: 20px; padding-block: 0 64px;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 3px; }
+::selection { background: var(--accent); color: var(--bg); }
+.wrap { max-width: 900px; margin: 0 auto; }
+.mono { font-family: var(--mono); }
+
+/* nav */
+nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  margin-inline: -20px; padding: 12px 20px;
+  font-family: var(--mono); font-size: .85rem;
+}
+nav .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; }
+.mark { color: var(--ok); text-decoration: none; }
+.mark b { color: var(--accent); font-weight: 500; }
+.mark i { color: var(--muted); font-style: normal; }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; }
+nav ul a { color: var(--muted); text-decoration: none; }
+nav ul a:hover { color: var(--accent); }
+
+/* prompt line used across the page */
+.ps { color: var(--ok); }
+.ps b { color: var(--accent); font-weight: 500; }
+.ps i { color: var(--muted); font-style: normal; }
+.cmd { color: var(--ink); }
+.cursor { display: inline-block; width: .6em; height: 1.05em; background: var(--accent); vertical-align: -0.15em; margin-left: 4px; }
+@media (prefers-reduced-motion: no-preference) { .cursor { animation: blink 1.1s steps(1) infinite; } }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* hero terminal window */
+header.hero { padding-block: 48px 36px; }
+.term {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  box-shadow: 0 24px 60px -30px rgba(0,0,0,.6);
+}
+.term-bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  background: var(--panel-2); border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: .75rem; color: var(--muted);
+}
+.dot { width: 11px; height: 11px; border-radius: 50%; background: var(--line); }
+.dot.r { background: #e5534b; } .dot.y { background: #d9a62e; } .dot.g { background: #3fb950; }
+.term-bar span { margin-left: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.term-body { padding: 26px clamp(18px, 4vw, 34px) 30px; display: grid; gap: 14px; font-family: var(--mono); font-size: .9rem; }
+.term-body > * { min-width: 0; }
+.term-body p { margin: 0; }
+h1 {
+  font-family: var(--mono); font-weight: 800; letter-spacing: -.03em;
+  font-size: clamp(2.4rem, 8.5vw, 4.6rem); line-height: 1; margin: 2px 0 6px; color: var(--ink); text-wrap: balance;
+}
+.role { font-family: var(--body); font-size: clamp(1.1rem, 2.6vw, 1.35rem); font-weight: 500; line-height: 1.4; max-width: 38ch; }
+.role em { font-style: normal; color: var(--accent); }
+.lede { font-family: var(--body); color: var(--muted); max-width: 64ch; font-size: 1rem; }
+
+/* neofetch-style facts */
+.fetch { display: grid; grid-template-columns: max-content 1fr; gap: 3px 16px; margin: 4px 0 0; }
+.fetch dt { color: var(--accent); }
+.fetch dt::after { content: ":"; color: var(--muted); }
+.fetch dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.fetch .ok { color: var(--ok); }
+
+.cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 500 .85rem var(--mono); padding: 9px 16px; border-radius: 6px;
+  text-decoration: none; border: 1px solid var(--line); color: var(--ink); background: var(--panel-2); cursor: pointer;
+}
+.btn::before { content: ">"; color: var(--accent); }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.btn.primary::before { color: var(--bg); }
+.btn.primary:hover { background: transparent; color: var(--accent); }
+.btn.primary:hover::before { color: var(--accent); }
+
+/* sections */
+section { padding-block: 40px; }
+h2 {
+  font-family: var(--mono); font-weight: 500; font-size: .95rem;
+  margin: 0 0 22px; padding-bottom: 12px; border-bottom: 1px dashed var(--line);
+  overflow-wrap: anywhere;
+}
+h3 { font-family: var(--body); font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0; text-wrap: balance; }
+.org { color: var(--muted); margin: 2px 0 10px; font-size: .92rem; font-family: var(--mono); }
+ul.points { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+ul.points li { padding-left: 1.4rem; position: relative; }
+ul.points li::before { content: "+"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); }
+p { margin: 0; }
+
+.log { display: grid; gap: 30px; }
+.entry { display: grid; grid-template-columns: 170px 1fr; gap: 24px; }
+.entry > * { min-width: 0; }
+.when { font-family: var(--mono); font-size: .8rem; color: var(--muted); padding-top: 4px; font-variant-numeric: tabular-nums; display: grid; gap: 6px; align-content: start; }
+.proc { font-family: var(--mono); font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; }
+.proc.run { color: var(--ok); }
+.proc.run::before { content: "●"; margin-right: 6px; }
+.proc.exit { color: var(--muted); }
+.proc.exit::before { content: "■"; margin-right: 6px; }
+.body { display: grid; gap: 6px; max-width: 66ch; }
+
+/* featured project */
+.feature {
+  background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--signal); border-radius: 8px;
+  padding: 24px; display: grid; gap: 12px;
+}
+.feature .tag { font-family: var(--mono); font-size: .78rem; color: var(--signal); }
+.duties { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 4px; }
+.duties div { background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; font-size: .93rem; }
+.duties b { display: block; font-family: var(--mono); font-weight: 500; color: var(--accent); margin-bottom: 4px; font-size: .85rem; }
+
+/* awards */
+.awards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.award { border: 1px solid var(--line); border-radius: 8px; padding: 20px; display: grid; gap: 8px; align-content: start; background: var(--panel); }
+.flag { font-family: var(--mono); font-size: .85rem; color: var(--signal); overflow-wrap: anywhere; }
+.award p { color: var(--muted); font-size: .95rem; }
+
+/* labs */
+.labs { display: grid; gap: 16px; }
+.labs-intro { color: var(--muted); max-width: 66ch; }
+.lab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.lab { border: 1px solid var(--line); border-radius: 8px; padding: 16px 20px; background: var(--panel); display: grid; gap: 4px; }
+.lab-name { font-family: var(--mono); font-weight: 700; color: var(--accent); }
+.lab p { color: var(--muted); font-size: .95rem; }
+.labs .skillrow { font-family: var(--mono); }
+
+/* skills */
+.skills { display: grid; gap: 16px; font-family: var(--mono); }
+.skillrow { display: grid; grid-template-columns: 170px 1fr; gap: 24px; align-items: baseline; }
+.skillrow > * { min-width: 0; }
+.skillrow .label { font-size: .85rem; color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.chips li { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 3px 10px; font-size: .85rem; }
+
+/* education */
+.edu { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.degree { display: grid; gap: 4px; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); align-content: start; }
+.degree .status { font-family: var(--mono); font-size: .75rem; }
+.degree .minor { color: var(--muted); font-size: .92rem; }
+
+/* contact */
+.contact { display: grid; gap: 16px; }
+.out { font-family: var(--mono); color: var(--muted); font-size: .9rem; }
+.contact-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.addr { font-family: var(--mono); background: var(--panel); border: 1px solid var(--line); padding: 8px 14px; border-radius: 6px; user-select: all; overflow-wrap: anywhere; }
+#copyMsg { font-family: var(--mono); font-size: .8rem; color: var(--ok); min-height: 1.2em; }
+footer { padding-top: 28px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .8rem; font-family: var(--mono); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+@media (max-width: 640px) {
+  header.hero { padding-block: 28px 24px; }
+  .entry, .skillrow, .labs .skillrow { grid-template-columns: 1fr; gap: 6px; }
+  .when { padding-top: 0; grid-auto-flow: column; justify-content: start; gap: 14px; }
+  nav .mark i { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .term-body > * { animation: type .45s ease-out both; }
+  .term-body > *:nth-child(2) { animation-delay: .05s; }
+  .term-body > *:nth-child(3) { animation-delay: .1s; }
+  .term-body > *:nth-child(4) { animation-delay: .15s; }
+  .term-body > *:nth-child(n+5) { animation-delay: .2s; }
+  @keyframes type { from { transform: translateY(6px); opacity: .01; } to { transform: none; opacity: 1; } }
+}
+</style>
+
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a class="mark" href="#top">brent@rosen<i>:</i><b>~</b><i>$</i></a>
+    <ul>
+      <li><a href="#experience">./experience</a></li>
+      <li><a href="#projects">./projects</a></li>
+      <li><a href="#skills">./skills</a></li>
+      <li><a href="#education">./education</a></li>
+      <li><a href="#contact">./contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+  <header class="hero">
+    <div class="term">
+      <div class="term-bar"><i class="dot r"></i><i class="dot y"></i><i class="dot g"></i><span>brent@rosen: ~ (bash)</span></div>
+      <div class="term-body">
+        <p><span class="ps">brent@rosen:<b>~</b><i>$</i></span> <span class="cmd">whoami</span></p>
+        <h1>Brent Rosen<span class="cursor" aria-hidden="true"></span></h1>
+        <p class="role">IT and cybersecurity student building toward a career in <em>AI-driven security</em>.</p>
+        <p class="lede">I have a B.S. in Information Technology from Nova Southeastern University, with minors in Cybersecurity and AI Application, and I'm now pursuing an M.S. in Artificial Intelligence Cybersecurity. I work as an IT intern, own security for a student platform, and am a member of NSU's eHackers cybersecurity club, which I served as vice president. I like hard technical problems and explaining the fixes clearly to the people who depend on them.</p>
+        <p><span class="ps">brent@rosen:<b>~</b><i>$</i></span> <span class="cmd">neofetch --short</span></p>
+        <dl class="fetch">
+          <dt>location</dt><dd>Fort Lauderdale, FL</dd>
+          <dt>current</dt><dd>IT Intern @ Downtown Computer Services</dd>
+          <dt>studying</dt><dd>M.S. AI Cybersecurity, NSU (exp. 05/2028)</dd>
+          <dt>ctf</dt><dd>1st place, SFISSA Hack the Flag 2025</dd>
+          <dt>status</dt><dd class="ok">open to IT and cybersecurity internships and roles</dd>
+        </dl>
+        <div class="cta">
+          <a class="btn primary" href="https://www.linkedin.com/in/brent-rosen/" target="_blank" rel="noopener">linkedin</a>
+          <a class="btn" href="#contact">contact</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="experience">
+    <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> cat experience.log</h2>
+    <div class="log">
+      <article class="entry">
+        <div class="when">02/2025 → now<span class="proc run">running</span></div>
+        <div class="body">
+          <div><h3>IT Intern</h3><p class="org">Downtown Computer Services · Fort Lauderdale, FL</p></div>
+          <ul class="points">
+            <li>Provide technical support, resolving IT issues to keep team members productive.</li>
+            <li>Support team-based IT projects and the department's technology roll-outs and maintenance.</li>
+            <li>Complete assigned tasks ahead of schedule through strong time management.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="entry">
+        <div class="when">02/2024 → 06/2024<span class="proc exit">exited 0</span></div>
+        <div class="body">
+          <div><h3>Project Assistant</h3><p class="org">Nova Southeastern University · Davie, FL</p></div>
+          <ul class="points">
+            <li>Enrolled participants in a research study and confirmed their training dates and times.</li>
+            <li>Compiled study data in Google Forms and Microsoft Forms and built a database from it.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="entry">
+        <div class="when">05/2022 → 12/2023<span class="proc exit">exited 0</span></div>
+        <div class="body">
+          <div><h3>Online Account Sales Manager</h3><p class="org">Psycho Billy Records LLC · Fort Lauderdale, FL</p></div>
+          <ul class="points">
+            <li>Created, marketed and managed an online retail business selling collector albums and dolls.</li>
+            <li>Handled photography, listings, pricing and shipping for every item sold.</li>
+            <li>Built a customer database from data collected in Google Forms and Microsoft Forms.</li>
+            <li>Resolved customer requests and complaints, keeping a 99 to 100% positive seller rating.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> ls ./projects ./clubs</h2>
+    <div class="log">
+      <div class="feature">
+        <span class="tag">sudo -u security_owner · 11/2025 → now</span>
+        <h3>Project FinConnect</h3>
+        <p>A student-built platform where Nova Southeastern students can join discussions, find deals on campus essentials and coordinate rides with fellow Sharks, in a space designed to be safe and convenient. As Security Owner, I'm responsible for:</p>
+        <div class="duties">
+          <div><b>auth/</b>Authentication mechanisms, access control and identity management.</div>
+          <div><b>privacy/</b>Data privacy, ethical use and compliance with security best practices.</div>
+          <div><b>moderation/</b>Platform moderation, risk review and response to security concerns.</div>
+        </div>
+      </div>
+      <article class="entry">
+        <div class="when">08/2023 → now<span class="proc run">member</span></div>
+        <div class="body">
+          <div><h3>eHackers Cybersecurity Club</h3><p class="org">Nova Southeastern University · Davie, FL</p></div>
+          <p>Competed in technology events including the South FL Tech-Hub Hackathon 2024 and the National Cyber League (NCL) Fall 2024 season, and attended conferences with IT professionals. Served as vice president from August 2025 to May 2026, and remain an active member.</p>
+        </div>
+      </article>
+      <article class="entry">
+        <div class="when">08/2023 → 08/2024<span class="proc exit">exited 0</span></div>
+        <div class="body">
+          <div><h3>SAGE (Society of Anime, Gaming, and Entertainment)</h3><p class="org">Nova Southeastern University · Davie, FL</p></div>
+          <p>Weekly social club focused on video games and trivia.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="awards">
+    <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> grep -r "flag{" ./awards</h2>
+    <div class="awards">
+      <div class="award">
+        <span class="flag">flag{1st_place_advanced_ctf_2025}</span>
+        <h3>SFISSA Hack the Flag, 1st Place Team</h3>
+        <p>My team won the Advanced Capture the Flag at the South Florida ISSA chapter's competition, solving security challenges to find hidden flags.</p>
+      </div>
+      <div class="award">
+        <span class="flag">flag{nsls_nominee_2025}</span>
+        <h3>National Society of Leadership and Success, Nominee</h3>
+        <p>Nominated for academic achievement, leadership potential and commitment to personal and professional growth.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="labs">
+    <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> history | grep lab</h2>
+    <div class="labs">
+      <p class="labs-intro">Hands-on practice in cybersecurity lab environments, working through realistic scenarios outside the classroom.</p>
+      <div class="lab-grid">
+        <div class="lab"><span class="lab-name">Immersive Labs</span><p>Guided, hands-on cybersecurity labs.</p></div>
+        <div class="lab"><span class="lab-name">Cyber Range</span><p>Simulated environments for practicing security techniques.</p></div>
+      </div>
+      <div class="skillrow"><span class="label">./topics</span><ul class="chips"><li>OSINT</li><li>Password cracking</li><li>Digital forensics</li><li>Network traffic analysis</li><li>Wireshark</li><li>PCAP analysis</li></ul></div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> ls -R ./skills</h2>
+    <div class="skills">
+      <div class="skillrow"><span class="label">./os</span><ul class="chips"><li>Windows</li><li>Linux</li><li>macOS</li></ul></div>
+      <div class="skillrow"><span class="label">./languages</span><ul class="chips"><li>Python</li><li>Java</li><li>JavaScript</li><li>SQL</li><li>HTML</li><li>CSS</li></ul></div>
+      <div class="skillrow"><span class="label">./tools</span><ul class="chips"><li>Microsoft Office Suite</li><li>Tableau</li><li>ChatGPT</li></ul></div>
+      <div class="skillrow"><span class="label">./core</span><ul class="chips"><li>Networking</li><li>System administration</li><li>Technical support</li><li>Customer service</li></ul></div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> cat education.txt</h2>
+    <div class="edu">
+      <div class="degree">
+        <span class="status proc run">in progress · exp. 05/2028</span>
+        <h3>M.S. Artificial Intelligence Cybersecurity</h3>
+        <p class="org">Nova Southeastern University · Davie, FL</p>
+      </div>
+      <div class="degree">
+        <span class="status proc exit">complete · 05/2026</span>
+        <h3>B.S. Information Technology</h3>
+        <p class="org">Nova Southeastern University · Davie, FL</p>
+        <p class="minor">Minors in Cybersecurity and AI Application</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2><span class="ps">brent@rosen:<b>~</b><i>$</i></span> ./contact.sh</h2>
+    <div class="contact">
+      <p class="out">[+] Open to internships and roles in IT and cybersecurity.</p>
+      <div class="contact-row">
+        <span class="addr" id="email">brentrosen430@gmail.com</span>
+        <button class="btn" id="copyBtn" type="button">copy email</button>
+        <a class="btn primary" href="https://www.linkedin.com/in/brent-rosen/" target="_blank" rel="noopener">connect on linkedin</a>
+      </div>
+      <span id="copyMsg" aria-live="polite"></span>
+    </div>
+  </section>
+
+  <footer><span>© 2026 Brent Rosen · Fort Lauderdale, FL</span><span>[process completed with exit code 0]</span></footer>
+</main>
+
+<script>
+document.getElementById('copyBtn').addEventListener('click', function () {
+  var text = document.getElementById('email').textContent.trim();
+  var msg = document.getElementById('copyMsg');
+  function selectIt() {
+    var r = document.createRange(); r.selectNodeContents(document.getElementById('email'));
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    msg.textContent = '[!] Email selected. Press Ctrl+C or Cmd+C to copy.';
+  }
+  try {
+    navigator.clipboard.writeText(text).then(function () { msg.textContent = '[+] Copied to clipboard.'; }, selectIt);
+  } catch (e) { selectIt(); }
+});
+</script>
+</body>
+</html>
