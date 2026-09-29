@@ -164,3 +164,48 @@ document.getElementById('copyBtn').addEventListener('click', function () {
     input.focus({ preventScroll: true });
   });
 })();
+/* ---------- scroll animations: sections slide in and their command types out ---------- */
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nav = document.querySelector('nav');
+  if (nav) {
+    var tick = false;
+    var upd = function () { tick = false; var h = document.documentElement.scrollHeight - window.innerHeight; nav.style.setProperty('--scroll', h > 0 ? Math.min(1, window.scrollY / h).toFixed(4) : 0); };
+    window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+    upd();
+  }
+  if (reduce || !('IntersectionObserver' in window)) return;
+  var ITEMS = 'h2, .shell-hint, .shell, .entry, .feature, .award, .labs-intro, .lab, .skillrow, .degree, .out, .contact-row';
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  function typeH2(h2) {
+    var node = null;
+    for (var i = h2.childNodes.length - 1; i >= 0; i--) { if (h2.childNodes[i].nodeType === 3 && h2.childNodes[i].nodeValue.trim()) { node = h2.childNodes[i]; break; } }
+    if (!node) return;
+    var full = node.nodeValue, n = 1, span = document.createElement('span');
+    span.className = 'typing-h'; h2.replaceChild(span, node); span.textContent = ' ';
+    (function step() {
+      span.textContent = full.slice(0, ++n);
+      if (n < full.length) setTimeout(step, 28 + Math.random() * 30);
+      else setTimeout(function () { span.classList.remove('typing-h'); }, 500);
+    })();
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      var items = e.target.querySelectorAll('.rv');
+      Array.prototype.forEach.call(items, function (el, i) {
+        el.style.transitionDelay = Math.min(i * 70, 560) + 'ms';
+        el.classList.add('rv-in');
+      });
+      var h2 = e.target.querySelector('h2');
+      if (h2) typeH2(h2);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+  sections.forEach(function (sec) {
+    var r = sec.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.9) return; // already on screen at load: leave it static
+    Array.prototype.forEach.call(sec.querySelectorAll(ITEMS), function (el) { el.classList.add('rv'); });
+    io.observe(sec);
+  });
+})();
