@@ -57,8 +57,12 @@ nav .wrap { display: flex; justify-content: space-between; align-items: center; 
 .mark { color: var(--ok); text-decoration: none; }
 .mark b { color: var(--accent); font-weight: 500; }
 .mark i { color: var(--muted); font-style: normal; }
-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; }
+nav ul { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; gap: 16px; flex-wrap: wrap; }
 nav ul a { color: var(--muted); text-decoration: none; }
+/* GitHub link */
+.gh { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 5px 10px; }
+.gh:hover { border-color: var(--accent); color: var(--accent); }
+.gh svg { flex: none; }
 nav ul a:hover { color: var(--accent); }
 
 /* prompt line used across the page */
@@ -185,9 +189,6 @@ p { margin: 0; }
 .contact-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .addr { font-family: var(--mono); background: var(--panel); border: 1px solid var(--line); padding: 8px 14px; border-radius: 6px; user-select: all; overflow-wrap: anywhere; }
 #copyMsg { font-family: var(--mono); font-size: .8rem; color: var(--ok); min-height: 1.2em; }
-footer .src { color: var(--muted); text-decoration: none; }
-footer .src span { color: var(--accent); }
-footer .src:hover, footer .src:hover span { color: var(--accent); text-decoration: underline; }
 footer { padding-top: 28px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .8rem; font-family: var(--mono); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
 
 @media (max-width: 640px) {
@@ -195,6 +196,8 @@ footer { padding-top: 28px; border-top: 1px dashed var(--line); color: var(--mut
   .entry, .skillrow, .labs .skillrow { grid-template-columns: 1fr; gap: 6px; }
   .when { padding-top: 0; grid-auto-flow: column; justify-content: start; gap: 14px; }
   nav .mark i { display: none; }
+  .gh span { display: none; }
+  .gh { padding: 6px 8px; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .term-body > * { animation: type .45s ease-out both; }
