@@ -185,6 +185,9 @@ p { margin: 0; }
 .contact-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .addr { font-family: var(--mono); background: var(--panel); border: 1px solid var(--line); padding: 8px 14px; border-radius: 6px; user-select: all; overflow-wrap: anywhere; }
 #copyMsg { font-family: var(--mono); font-size: .8rem; color: var(--ok); min-height: 1.2em; }
+footer .src { color: var(--muted); text-decoration: none; }
+footer .src span { color: var(--accent); }
+footer .src:hover, footer .src:hover span { color: var(--accent); text-decoration: underline; }
 footer { padding-top: 28px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .8rem; font-family: var(--mono); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
 
 @media (max-width: 640px) {
