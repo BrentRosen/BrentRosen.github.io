@@ -166,10 +166,14 @@ document.getElementById('copyBtn').addEventListener('click', function () {
 (function () {
   var nav = document.querySelector('nav');
   if (nav) {
-    var tick = false;
-    var upd = function () { tick = false; var h = document.documentElement.scrollHeight - window.innerHeight; nav.style.setProperty('--scroll', h > 0 ? Math.min(1, window.scrollY / h).toFixed(4) : 0); };
+    var bar = document.createElement('span'); bar.className = 'progress'; bar.setAttribute('aria-hidden', 'true'); nav.appendChild(bar);
+    var tick = false, maxY = 1;
+    var measure = function () { maxY = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); };
+    var upd = function () { tick = false; bar.style.transform = 'scaleX(' + Math.min(1, window.scrollY / maxY).toFixed(4) + ')'; };
     window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
-    upd();
+    window.addEventListener('resize', function () { measure(); upd(); });
+    window.addEventListener('load', function () { measure(); upd(); });
+    measure(); upd();
   }
   if (!('IntersectionObserver' in window)) return;
   var ITEMS = 'h2, .shell-hint, .shell, .entry, .feature, .award, .labs-intro, .lab, .skillrow, .degree, .out, .contact-row';
@@ -194,6 +198,7 @@ document.getElementById('copyBtn').addEventListener('click', function () {
       Array.prototype.forEach.call(items, function (el, i) {
         el.style.transitionDelay = Math.min(i * 70, 560) + 'ms';
         el.classList.add('rv-in');
+        el.addEventListener('transitionend', function done(ev) { if (ev.propertyName !== 'opacity') return; el.classList.add('rv-done'); el.removeEventListener('transitionend', done); });
       });
       var h2 = e.target.querySelector('h2');
       if (h2) typeH2(h2);
