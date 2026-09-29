@@ -141,15 +141,15 @@ h1 {
 .shell-hint { color: var(--muted); font-size: .92rem; margin: 0 0 14px; max-width: 66ch; }
 
 /* scroll reveal (classes added by JS only; without JS or with reduced motion the page is static) */
-.rv { opacity: 0; transform: translate3d(0, 16px, 0); transition: opacity .5s ease-out, transform .5s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
-.rv-done { will-change: auto; }
+.rv { opacity: 0; transform: translate3d(0, 28px, 0) scale(.985); transition: opacity .5s ease-out, transform .6s cubic-bezier(.2,.7,.2,1); }
+.rv.rv-above { transform: translate3d(0, -28px, 0) scale(.985); }
 .rv.rv-in { opacity: 1; transform: none; }
 h2 .typing-h::after { content: ""; display: inline-block; width: .55em; height: 1em; background: var(--accent); vertical-align: -0.15em; margin-left: 2px; }
 .progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; will-change: transform; pointer-events: none; }
 @media print { .rv { opacity: 1 !important; transform: none !important; } }
 /* reduced motion: keep the fades and typing, drop the sliding */
 @media (prefers-reduced-motion: reduce) {
-  .rv { transform: none; transition: opacity .5s ease-out; }
+  .rv, .rv.rv-above { transform: none; transition: opacity .5s ease-out; }
   .term-body > .shown { animation: fade .35s ease-out both; }
   html { scroll-behavior: auto; }
 }

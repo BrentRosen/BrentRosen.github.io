@@ -177,37 +177,57 @@ document.getElementById('copyBtn').addEventListener('click', function () {
   }
   if (!('IntersectionObserver' in window)) return;
   var ITEMS = 'h2, .shell-hint, .shell, .entry, .feature, .award, .labs-intro, .lab, .skillrow, .degree, .out, .contact-row';
-  var sections = Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  var els = Array.prototype.slice.call(document.querySelectorAll('main > section')).reduce(function (acc, sec) {
+    return acc.concat(Array.prototype.slice.call(sec.querySelectorAll(ITEMS)));
+  }, []);
+  var typing = new WeakMap();
   function typeH2(h2) {
-    var node = null;
-    for (var i = h2.childNodes.length - 1; i >= 0; i--) { if (h2.childNodes[i].nodeType === 3 && h2.childNodes[i].nodeValue.trim()) { node = h2.childNodes[i]; break; } }
-    if (!node) return;
-    var full = node.nodeValue, n = 1, span = document.createElement('span');
-    span.className = 'typing-h'; h2.replaceChild(span, node); span.textContent = ' ';
+    if (typing.get(h2)) return;
+    var span = h2.querySelector('.cmdtext');
+    if (!span) {
+      var node = null;
+      for (var i = h2.childNodes.length - 1; i >= 0; i--) { if (h2.childNodes[i].nodeType === 3 && h2.childNodes[i].nodeValue.trim()) { node = h2.childNodes[i]; break; } }
+      if (!node) return;
+      span = document.createElement('span'); span.className = 'cmdtext'; span.setAttribute('data-full', node.nodeValue);
+      h2.replaceChild(span, node);
+    }
+    var full = span.getAttribute('data-full'), n = 1;
+    typing.set(h2, true); span.classList.add('typing-h'); span.textContent = ' ';
     (function step() {
       span.textContent = full.slice(0, ++n);
-      if (n < full.length) setTimeout(step, 28 + Math.random() * 30);
-      else setTimeout(function () { span.classList.remove('typing-h'); }, 500);
+      if (n < full.length) setTimeout(step, 24 + Math.random() * 26);
+      else setTimeout(function () { span.classList.remove('typing-h'); typing.set(h2, false); }, 450);
     })();
   }
   var io = new IntersectionObserver(function (entries) {
+    var entering = [];
     entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      io.unobserve(e.target);
-      var items = e.target.querySelectorAll('.rv');
-      Array.prototype.forEach.call(items, function (el, i) {
-        el.style.transitionDelay = Math.min(i * 70, 560) + 'ms';
-        el.classList.add('rv-in');
-        el.addEventListener('transitionend', function done(ev) { if (ev.propertyName !== 'opacity') return; el.classList.add('rv-done'); el.removeEventListener('transitionend', done); });
-      });
-      var h2 = e.target.querySelector('h2');
-      if (h2) typeH2(h2);
+      var el = e.target;
+      if (e.isIntersecting) {
+        if (!el.classList.contains('rv-in')) entering.push(e);
+      } else if (el.classList.contains('rv-in')) {
+        // left the screen: park it on the side it left from, so it slides back in from that side
+        var above = e.boundingClientRect.top < (e.rootBounds ? e.rootBounds.top : 0);
+        el.style.transitionDelay = '0ms';
+        el.classList.remove('rv-in');
+        el.classList.toggle('rv-above', above);
+      }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
-  sections.forEach(function (sec) {
-    var r = sec.getBoundingClientRect();
-    if (r.top < window.innerHeight * 0.9) return; // already on screen at load: leave it static
-    Array.prototype.forEach.call(sec.querySelectorAll(ITEMS), function (el) { el.classList.add('rv'); });
-    io.observe(sec);
+    if (!entering.length) return;
+    var up = entering[0].target.classList.contains('rv-above');
+    entering.sort(function (a, b) { return up ? b.boundingClientRect.top - a.boundingClientRect.top : a.boundingClientRect.top - b.boundingClientRect.top; });
+    entering.forEach(function (e, i) {
+      var el = e.target;
+      el.style.transitionDelay = Math.min(i * 70, 420) + 'ms';
+      el.classList.add('rv-in');
+      if (el.tagName === 'H2') typeH2(el);
+    });
+  }, { threshold: 0, rootMargin: '-4% 0px -6% 0px' });
+  var vh = window.innerHeight;
+  els.forEach(function (el) {
+    var r = el.getBoundingClientRect();
+    el.classList.add('rv');
+    if (r.top < vh * 0.94 && r.bottom > 0) el.classList.add('rv-in'); // on screen at load: show as-is
+    io.observe(el);
   });
 })();
