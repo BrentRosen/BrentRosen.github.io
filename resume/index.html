@@ -13,12 +13,25 @@ h1 .c { display: inline-block; width: .55em; height: .9em; background: #0b6e69; 
 .contact a { color: #0b6e69; }
 h2::before { content: "> "; color: #b35900; }
 h2 { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-weight: 500; font-size: 10pt; letter-spacing: .5pt; border-bottom: 1pt dashed #0b6e69; color: #0b6e69; margin: 9pt 0 4pt; padding-bottom: 1pt; }
-.row span:last-child { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-weight: 500; font-size: 8.8pt; color: #0b6e69; }
+.row span:last-child { white-space: nowrap;  font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; font-weight: 500; font-size: 8.8pt; color: #0b6e69; }
 .row { display: flex; justify-content: space-between; gap: 12pt; font-weight: bold; margin-top: 5pt; }
 .sub { font-style: italic; }
+.org { font-weight: 400; }
+.row span:first-child { min-width: 0; }
 ul { margin: 2pt 0 0; padding-left: 14pt; }
 li { margin: 1pt 0; }
 p { margin: 2pt 0; }
+@media print {
+  @page { size: Letter; margin: 0.35in 0.5in; }
+  body { font-size: 8.8pt; line-height: 1.22; }
+  h1 { font-size: 18pt; }
+  .contact { margin: 1pt 0 4pt; font-size: 7.9pt !important; }
+  h2 { font-size: 9.2pt; margin: 6pt 0 2pt; padding-bottom: 0; }
+  .row { margin-top: 3pt; }
+  .row span:last-child { font-size: 8.2pt; }
+  ul { margin: 1pt 0 0; padding-left: 12pt; }
+  li, p { margin: 0.5pt 0; }
+}
 @media screen { html { background: #eef2f3; } body { max-width: 8.5in; margin: 24px auto; padding: .55in .65in; background: #fff; box-shadow: 0 10px 40px -20px rgba(0,0,0,.35); } }
 @media screen and (max-width: 700px) { body { margin: 0; padding: 20px 16px; } .row { flex-wrap: wrap; } }
 </style></head><body>
@@ -26,10 +39,8 @@ p { margin: 2pt 0; }
 <div class="contact">Fort Lauderdale, FL 33308 | 954-303-4118 | brentrosen430@gmail.com | <a href="https://www.linkedin.com/in/brent-rosen/">linkedin.com/in/brent-rosen</a> | <a href="https://brentrosen.github.io">brentrosen.github.io</a></div>
 
 <h2>EDUCATION</h2>
-<div class="row"><span>Nova Southeastern University - Davie, FL | Master of Science</span><span>Expected 05/2028</span></div>
-<p class="sub">Artificial Intelligence Cybersecurity</p>
-<div class="row"><span>Nova Southeastern University - Davie, FL | Bachelor of Science</span><span>Completed 05/2026</span></div>
-<p class="sub">Information Technology | Minor in Cybersecurity &amp; Minor in AI Application</p>
+<div class="row"><span>Nova Southeastern University - Davie, FL | Master of Science <em class="org">· Artificial Intelligence Cybersecurity</em></span><span>Expected 05/2028</span></div>
+<div class="row"><span>Nova Southeastern University - Davie, FL | Bachelor of Science <em class="org">· Information Technology | Minor in Cybersecurity &amp; Minor in AI Application</em></span><span>Completed 05/2026</span></div>
 
 <h2>PROFESSIONAL SUMMARY</h2>
 <p>Offers strong analytical skills and commitment to learning and growing in IT field. Brings understanding of networking principles and basic system administration, demonstrating ability to quickly grasp complex technical concepts. Friendly and empathetic with excellent communication skills, dedicated to providing outstanding service and support. Possesses solid understanding of customer needs and conflict resolution, coupled with strong problem-solving abilities.</p>
@@ -41,22 +52,19 @@ p { margin: 2pt 0; }
 <p>Completed hands-on cybersecurity labs on Immersive Labs and Cyber Range, covering OSINT, password cracking, digital forensics, and network traffic analysis (Wireshark, PCAP files).</p>
 
 <h2>EXPERIENCE</h2>
-<div class="row"><span>IT INTERN</span><span>02/2025 to Current</span></div>
-<p class="sub">Downtown Computer Services - Fort Lauderdale, FL</p>
+<div class="row"><span>IT INTERN <em class="org">· Downtown Computer Services - Fort Lauderdale, FL</em></span><span>02/2025 to Current</span></div>
 <ul>
 <li>Provided technical support, resolving IT issues to maximize productivity for team members.</li>
 <li>Delivered assistance and support for team-based IT projects.</li>
 <li>Completed assigned tasks ahead of schedule, demonstrating strong time management skills and commitment to project success.</li>
 <li>Supported IT department in handling technology roll-out and maintenance.</li>
 </ul>
-<div class="row"><span>PROJECT ASSISTANT</span><span>02/2024 to 06/2024</span></div>
-<p class="sub">Nova Southeastern University - Davie, FL</p>
+<div class="row"><span>PROJECT ASSISTANT <em class="org">· Nova Southeastern University - Davie, FL</em></span><span>02/2024 to 06/2024</span></div>
 <ul>
 <li>Enrolled participants in a study, confirmed training dates/times with the participants.</li>
 <li>Compiled study data on Google Forms and Microsoft Forms and developed database of information.</li>
 </ul>
-<div class="row"><span>ONLINE ACCOUNT SALES MANAGER</span><span>05/2022 to 12/2023</span></div>
-<p class="sub">Psycho Billy Records LLC - Fort Lauderdale, FL</p>
+<div class="row"><span>ONLINE ACCOUNT SALES MANAGER <em class="org">· Psycho Billy Records LLC - Fort Lauderdale, FL</em></span><span>05/2022 to 12/2023</span></div>
 <ul>
 <li>Created, marketed and managed online retail business selling collector albums and dolls.</li>
 <li>Photographed items for sale, uploaded photos, priced items and shipped items when sold.</li>
@@ -72,18 +80,15 @@ p { margin: 2pt 0; }
 <p>My team won first place in the Advanced Capture the Flag (CTF). A CTF is a cybersecurity competition where participants solve security challenges to find hidden "flags," which are typically text strings or files.</p>
 
 <h2>EXTRACURRICULAR ACTIVITIES</h2>
-<div class="row"><span>Project: FinConnect — Security Owner (Authentication, Privacy &amp; Moderation)</span><span>11/2025 to Current</span></div>
-<p class="sub">Nova Southeastern University — Davie, FL</p>
+<div class="row"><span>Project: FinConnect — Security Owner (Authentication, Privacy &amp; Moderation) <em class="org">· Nova Southeastern University — Davie, FL</em></span><span>11/2025 to Current</span></div>
 <p>Project FinConnect is a new student connection platform that can enhance the student experience by providing a safe, convenient, and engaging platform where NSU students can connect, collaborate, and thrive together. Built by students, for students, FinConnect embodies the spirit of our shark community. This is done by letting students engage in discussions, find great deals on campus essentials, or coordinate rides with fellow sharks. My role as Security Owner is to:</p>
 <ul>
 <li>Oversee authentication mechanisms, access control, and identity management.</li>
 <li>Ensure data privacy, ethical use, and compliance with security best practices.</li>
 <li>Moderate platforms, review risks, and respond to security-related concerns.</li>
 </ul>
-<div class="row"><span>eHackers (Cybersecurity) Club</span><span>08/2023 to Current</span></div>
-<p class="sub">Nova Southeastern University - Davie, FL</p>
+<div class="row"><span>eHackers (Cybersecurity) Club <em class="org">· Nova Southeastern University - Davie, FL</em></span><span>08/2023 to Current</span></div>
 <p>Participated in various technology-focused events, including the South FL Tech-Hub Hackathon 2024, NCL Fall 2024. Attended conferences with professionals in the IT field. Served as vice president from 08/2025 to 05/2026; currently an active member.</p>
-<div class="row"><span>SAGE (Society of Anime, Gaming, and Entertainment Club)</span><span>08/2023 to 08/2024</span></div>
-<p class="sub">Nova Southeastern University - Davie, FL</p>
+<div class="row"><span>SAGE (Society of Anime, Gaming, and Entertainment Club) <em class="org">· Nova Southeastern University - Davie, FL</em></span><span>08/2023 to 08/2024</span></div>
 <p>Weekly social club focused on video games and trivia.</p>
 </body></html>
