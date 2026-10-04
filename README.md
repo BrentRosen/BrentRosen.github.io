@@ -8,7 +8,7 @@ brent@rosen:~$ whoami
 
 **IT & cybersecurity student** · M.S. Artificial Intelligence Cybersecurity @ Nova Southeastern University
 
-[![Website](https://img.shields.io/badge/site-brentrosen.github.io-3fd6c4?style=for-the-badge&logo=gnubash&logoColor=white&labelColor=070d12)](https://brentrosen.github.io)
+[![Website](https://img.shields.io/badge/site-brentrosen.github.io-3fd6c4?style=for-the-badge&logo=gnubash&logoColor=white&labelColor=070d12)](https://brentrosen.is-a.dev/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-brent--rosen-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=070d12)](https://www.linkedin.com/in/brent-rosen/)
 [![Resume](https://img.shields.io/badge/resume-PDF-f2a33a?style=for-the-badge&logo=adobeacrobatreader&logoColor=white&labelColor=070d12)](https://brentrosen.github.io/assets/Brent_Rosen_Resume.pdf)
 
@@ -16,7 +16,7 @@ brent@rosen:~$ whoami
 
 ---
 
-This repo is the source for my personal portfolio at **[brentrosen.github.io](https://brentrosen.github.io)**, a single-page site styled like a terminal session, hosted on GitHub Pages. It boots up with a typing intro and includes a working interactive shell: type `help` to explore.
+This repo is the source for my personal portfolio at **[brentrosen.is-a.dev](https://brentrosen.is-a.dev/)**, a single-page site styled like a terminal session, hosted on GitHub Pages. It boots up with a typing intro and includes a working interactive shell: type `help` to explore.
 
 ## `$ neofetch --short`
 
