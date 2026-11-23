@@ -31,7 +31,6 @@ This repository holds all of the source code for my personal portfolio. GitHub P
 | **current** | IT Intern @ Downtown Computer Services |
 | **studying** | M.S. AI Cybersecurity, NSU (exp. 05/2028) · B.S. Information Technology, NSU (05/2026) |
 | **ctf** | 🚩 1st place, SFISSA Hack the Flag 2025 (Advanced CTF) |
-| **project** | Security Owner, Project FinConnect (auth, privacy & moderation) |
 | **labs** | Immersive Labs, Cyber Range: OSINT, password cracking, digital forensics, network traffic analysis (Wireshark, PCAPs) |
 
 ## `$ tree -L 2`

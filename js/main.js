@@ -72,15 +72,14 @@ document.getElementById('copyBtn').addEventListener('click', function () {
       }
     },
     whoami: { d: 'who I am, in one line', r: function () { return '<span class="hl">Brent Rosen</span>\nIT and cybersecurity student building toward a career in AI-driven security.\nM.S. AI Cybersecurity (exp. 05/2028) · B.S. Information Technology, Nova Southeastern University'; } },
-    about: { d: 'a short introduction', r: function () { return "I have a B.S. in Information Technology from Nova Southeastern University, with minors in Cybersecurity and AI Application, and I'm now pursuing an M.S. in Artificial Intelligence Cybersecurity. I work as an IT intern, own security for a student platform, and am a member of NSU's eHackers cybersecurity club, which I served as vice president."; } },
+    about: { d: 'a short introduction', r: function () { return "I have a B.S. in Information Technology from Nova Southeastern University, with minors in Cybersecurity and AI Application, and I'm now pursuing an M.S. in Artificial Intelligence Cybersecurity. I work as an IT intern and am a member of NSU's eHackers cybersecurity club, which I served as vice president."; } },
     experience: { d: 'where I have worked', r: function () {
       return '<span class="good">● running</span>  <span class="hl">IT Intern</span>, Downtown Computer Services  <span class="dim">02/2025 → now</span>\n' +
         '<span class="dim">■ exited 0</span> <span class="hl">Project Assistant</span>, Nova Southeastern University  <span class="dim">02/2024 → 06/2024</span>\n' +
         '<span class="dim">■ exited 0</span> <span class="hl">Online Account Sales Manager</span>, Psycho Billy Records LLC  <span class="dim">05/2022 → 12/2023</span>\n\n' +
         '<span class="dim">Details: type </span><span class="hl">cd experience</span>'; } },
     projects: { d: 'projects and clubs', r: function () {
-      return '<span class="hl">Project FinConnect</span>  <span class="dim">Security Owner · 11/2025 → now</span>\n  Authentication, access control, data privacy and moderation for an NSU student platform.\n' +
-        '<span class="hl">eHackers Cybersecurity Club</span>  <span class="dim">08/2023 → now</span>\n  Vice president 08/2025 to 05/2026, now a member. Tech-Hub Hackathon 2024, NCL Fall 2024.'; } },
+      return '<span class="hl">eHackers Cybersecurity Club</span>  <span class="dim">08/2023 → now</span>\n  Vice president 08/2025 to 05/2026, now a member. Tech-Hub Hackathon 2024, NCL Fall 2024.'; } },
     labs: { d: 'hands-on cybersecurity labs', r: function () {
       return 'Platforms: <span class="hl">Immersive Labs</span>, <span class="hl">Cyber Range</span>\nTopics:    OSINT · password cracking · digital forensics · network traffic analysis (Wireshark, PCAPs)'; } },
     skills: { d: 'languages, tools and systems', r: function () {
